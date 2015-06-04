@@ -67,8 +67,8 @@ def process_secmet_domain(st, dna, accession, proteinid):
             "Score": score,
             "DNA-Sequence": dna[(start*3)-2 : end*3]}
 
-@click.command()
-@click.option("--gbk", type=click.File('r'), help="gbkfile")
+#@click.command()
+#@click.option("--gbk", type=click.File('r'), help="gbkfile")
 def process_secmet(gbk):
     "process the protein qualifiers key for secondary metabolism"
     proteins = [p for p in gbk.features if p.type =="CDS" and "sec_met" in p.qualifiers.keys()]

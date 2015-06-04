@@ -8,9 +8,9 @@ from Bio import SeqIO, SeqUtils
 #from multiprocessing import pool
 
 
-@click.command()
-@click.option("--jsonfile",type=click.File('r'), prompt=True, help="Mibig json file")
-@click.option("--gbkfile", type=click.File('r'), prompt=True, help="Mibig GBK file")
+#@click.command()
+#@click.option("--jsonfile",type=click.File('r'), prompt=True, help="Mibig json file")
+#@click.option("--gbkfile", type=click.File('r'), prompt=True, help="Mibig GBK file")
 def general_cluster_data(jsonfile, gbkfile):
     """
     return a list of dictionaries with clusterinformation
