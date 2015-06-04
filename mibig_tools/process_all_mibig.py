@@ -3,6 +3,7 @@ import os
 import glob
 import pandas as pd
 import click
+from Bio import SeqIO
 from process_cluster import general_cluster_data
 from process_domains import process_secmet
 from process_nrps import process_NRP
