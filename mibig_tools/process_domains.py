@@ -2,9 +2,9 @@ import json
 import click
 #import glob
 
-#import pandas as pd
+import pandas as pd
 from Bio import SeqIO, SeqUtils
-#from toolz import assoc, dissoc, thread_first,partial
+from toolz import assoc, dissoc, thread_first,partial
 #from multiprocessing import pool
 
 
