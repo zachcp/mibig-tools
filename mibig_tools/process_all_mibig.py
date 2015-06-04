@@ -10,10 +10,10 @@ from process_pks import process_Polyketide
 
 @click.command()
 @click.option("--mibigfolder", type=click.Path(), prompt=True, help="Mibig data folder")
-@click.option("--clusterdata", type=click.File('w'), default="Clusters.csv", help="Cluster Outputfile (csv)")
-@click.option("--domaindata", type=click.File('w'), default="Domains.csv", help="Domainr Outputfile (csv)")
-@click.option("--nrpsdata", type=click.File('w'), default="NRPS.csv", help="NRPS Outputfile (csv)")
-@click.option("--pksdata", type=click.File('w'), default="PKS.csv", help="PKS Outputfile (csv)")
+@click.option("--clusterdata", type=click.STRING, default="Clusters.csv", help="Cluster Outputfile (csv)")
+@click.option("--domaindata", type=click.STRING, default="Domains.csv", help="Domainr Outputfile (csv)")
+@click.option("--nrpsdata", type=click.STRING, default="NRPS.csv", help="NRPS Outputfile (csv)")
+@click.option("--pksdata", type=click.STRING, default="PKS.csv", help="PKS Outputfile (csv)")
 def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata, pksdata):
     """
     Assumes that mibig cluster data (and only mibig cluster data) is in the
