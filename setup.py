@@ -2,9 +2,9 @@ from setuptools import setup, find_packages
 
 setup(
     name='mibig-tools',
-    version='0.1.0',
+    version='0.1.2',
     install_requires=[
-        'Click >= 0.4.0',
+        'Click >= 4.0',
         'Biopython >=1.6.5'
     ],
     packages=find_packages(),

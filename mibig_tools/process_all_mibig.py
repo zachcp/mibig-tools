@@ -2,16 +2,19 @@
 import os
 import glob
 import pandas as pd
+import click
 from process_cluster import general_cluster_data
 from process_domains import process_secmet
 from process_nrps import process_NRP
 from process_pks import process_Polyketide
 
-def process_mibig_cluster_folder(mibigfolder,
-                                 clusterdata = "Clusters.csv",
-                                 domaindata  = "Domains.csv",
-                                 nrpsdata ="NRPs.csv",
-                                 pksdata ="PKSs.csv"):
+@click.command()
+@click.options(migibfolder, type=click.Path(), prompt=True, help="Mibig data folder")
+@click.options(clusterdata, type=click.File('w'), default="Clusters.csv", help="Cluster Outputfile (csv)")
+@click.options(domaindata, type=click.File('w'), default="Domains.csv", help="Domainr Outputfile (csv)")
+@click.options(nrpsdata, type=click.File('w'), default="NRPS.csv", help="NRPS Outputfile (csv)")
+@click.options(pksdata, type=click.File('w'), default="PKS.csv", help="PKS Outputfile (csv)")
+def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata, pksdata):
     """
     Assumes that mibig cluster data (and only mibig cluster data) is in the
     given folder. Mibig data consists of two files:
@@ -19,10 +22,11 @@ def process_mibig_cluster_folder(mibigfolder,
      - json: e.g. BGC00001.json
      - gbk:  e.g. BGC00001.1.final.gbk
 
-
-
-
-    :return:
+    This script will process the entire folder an output the followign files:
+        clusterdata: clusterinfo
+        domaindata: domain info (from the GBK file)
+        nrpsdata: NRPS-specific Info
+        pksdata: PKS-specific Info
     """
     jsonfiles = glob.glob("{}/*.json".format(mibigfolder))
     gbkfiles = [jsonfile[:-4] + "1.final.gbk" for jsonfile in jsonfiles]
@@ -37,10 +41,6 @@ def process_mibig_cluster_folder(mibigfolder,
         ####################################################################################
         ####################################################################################
 
-        clusterinfo =  [general_cluster_data(data) for data in  datafiles]
-        clusterdf = pd.DataFrame([f for r in clusterinfo for f in r]) #general_cluster_data returns a list
-        clusterdf.to_csv(clusterdata, index=False)
-
         # results = []
         # for jsonfile in jsonfiles:
         #     gbkfile = jsonfile[:-4] + "1.final.gbk"
@@ -52,12 +52,18 @@ def process_mibig_cluster_folder(mibigfolder,
         #general_cluster_data('mibig.secondarymetabolites.org/repository/BGC0000001/BGC0000001.json',
         #
 
+        clusterinfo =  [general_cluster_data(data) for data in  datafiles]
+        clusterdf = pd.DataFrame([f for r in clusterinfo for f in r]) #general_cluster_data returns a list
+        clusterdf.to_csv(clusterdata, index=False)
+
+
     def makedomains():
         ## Process Domains
         ####################################################################################
         ####################################################################################
         #there can be more than one gbk per cluster. This will pull out ALL the cluster info
         # should we use only the first cluster?
+
         allgbks = glob.glob("{}/*.final.gbk".format(mibigfolder))
         domaininfo = []
         for genbank in allgbks:
@@ -92,7 +98,7 @@ def process_mibig_cluster_folder(mibigfolder,
         pksdf.to_csv(pksdata,index=False)
         # print df.shape
 
-    # processing scripts as funcitons to use local scope
+    # processing scripts as functions to use local scope/avoid memory issues
     makeclusters()
     makedomains()
     makeNRPS()
