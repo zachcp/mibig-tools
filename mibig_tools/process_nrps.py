@@ -1,14 +1,8 @@
 import os
 import json
-import click
 import pprint
-#import glob
 
-#import pandas as pd
-from Bio import SeqIO, SeqUtils
-from toolz import assoc, dissoc, thread_first,partial
-#from multiprocessing import pool
-
+from toolz import assoc, thread_first
 
 
 #Process NRPs
@@ -153,13 +147,3 @@ def process_NRP(jsonfile):
                        module:{}\n \
                        alldata:{}\n".format(jsonfile, gene['nrps_gene'], module,nrps)
     return allvalues
-
-
-# jsonfiles = glob.glob("mibigdata/*.json")
-# NRPs = [process_NRP(t) for t in jsonfiles]
-# NRP_dfs = [pd.DataFrame(nrp) for nrp in NRPs if nrp]
-# print "There are {} jsonfiles but only {} with NRP sections".format(len(jsonfiles), len(NRP_dfs))
-#
-# df = pd.concat(NRP_dfs)
-# df.to_csv("NRPs.csv",index=False)
-# print df.shape

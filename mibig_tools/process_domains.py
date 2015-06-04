@@ -1,11 +1,8 @@
 import json
 import click
-#import glob
 
 import pandas as pd
-from Bio import SeqIO, SeqUtils
-from toolz import assoc, dissoc, thread_first,partial
-#from multiprocessing import pool
+from toolz import partial
 
 
 # def get_domains(gbk):
@@ -109,15 +106,3 @@ def process_secmet(gbk):
             secmetdata.append(domainfunc(d))
 
     return pd.DataFrame(secmetdata)
-
-# gbks = glob.glob("mibigdata/*.final.gbk")
-#
-# results = []
-# for genbank in gbks:
-#     #print genbank
-#     gbkrecords = open(genbank,'r')
-#     for record in SeqIO.parse(gbkrecords,'genbank'):
-#         results.append( process_secmet(record))
-#
-# df = pd.concat(results)
-# df.to_csv("Domains.csv", index=False)

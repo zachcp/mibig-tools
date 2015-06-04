@@ -1,13 +1,8 @@
 import os
 import json
-import click
 import pprint
-#import glob
 
-#import pandas as pd
-from Bio import SeqIO, SeqUtils
-from toolz import assoc, dissoc, thread_first,partial
-#from multiprocessing import pool
+from toolz import assoc, thread_first\
 
 
 #Process KS
@@ -178,14 +173,3 @@ def process_Polyketide(jsonfile):
                        module:{}\n \
                        alldata:{}\n".format(jsonfile, gene['mod_pks_gene'], module,polyketide)
     return allvalues
- 
-
-# jsonfiles = glob.glob("mibigdata/*.json")
-#
-# PKSs = [process_Polyketide(t) for t in jsonfiles]
-# PKS_dfs = [pd.DataFrame(pks) for pks in PKSs if pks]
-# print "There are {} jsonfiles but only {} with PKS sections".format(len(jsonfiles), len(PKS_dfs))
-#
-# df = pd.concat(PKS_dfs)
-# df.to_csv("PKSs.csv",index=False)
-# print df.shape
