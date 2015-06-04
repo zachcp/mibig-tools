@@ -10,6 +10,6 @@ setup(
     packages=find_packages(),
     entry_points='''
         [console_scripts]
-        mibig_process_cluster = mibig_tools.process_cluster:general_cluster_data
+        mibig_process_folder = mibig_tools.process_all_mibig:process_mibig_cluster_folder
     ''',
 )
