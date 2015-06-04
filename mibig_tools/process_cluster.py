@@ -11,10 +11,11 @@ from Bio import SeqIO, SeqUtils
 #@click.command()
 #@click.option("--jsonfile",type=click.File('r'), prompt=True, help="Mibig json file")
 #@click.option("--gbkfile", type=click.File('r'), prompt=True, help="Mibig GBK file")
-def general_cluster_data(jsonfile, gbkfile):
+def general_cluster_data(data):
     """
     return a list of dictionaries with clusterinformation
     """
+    jsonfile, gbkfile = data
     clusterdata = json.load(open(jsonfile))
     gbks = SeqIO.parse(open(gbkfile),'genbank')
 
