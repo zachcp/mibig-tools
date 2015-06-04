@@ -9,11 +9,11 @@ from process_nrps import process_NRP
 from process_pks import process_Polyketide
 
 @click.command()
-@click.options(migibfolder, type=click.Path(), prompt=True, help="Mibig data folder")
-@click.options(clusterdata, type=click.File('w'), default="Clusters.csv", help="Cluster Outputfile (csv)")
-@click.options(domaindata, type=click.File('w'), default="Domains.csv", help="Domainr Outputfile (csv)")
-@click.options(nrpsdata, type=click.File('w'), default="NRPS.csv", help="NRPS Outputfile (csv)")
-@click.options(pksdata, type=click.File('w'), default="PKS.csv", help="PKS Outputfile (csv)")
+@click.option(migibfolder, type=click.Path(), prompt=True, help="Mibig data folder")
+@click.option(clusterdata, type=click.File('w'), default="Clusters.csv", help="Cluster Outputfile (csv)")
+@click.option(domaindata, type=click.File('w'), default="Domains.csv", help="Domainr Outputfile (csv)")
+@click.option(nrpsdata, type=click.File('w'), default="NRPS.csv", help="NRPS Outputfile (csv)")
+@click.option(pksdata, type=click.File('w'), default="PKS.csv", help="PKS Outputfile (csv)")
 def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata, pksdata):
     """
     Assumes that mibig cluster data (and only mibig cluster data) is in the
