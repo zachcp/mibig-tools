@@ -56,11 +56,15 @@ def process_secmet(gbk):
         clusterkind=""
         if 'protein_id' in p.qualifiers.keys():
             proteinid = p.qualifiers['protein_id'][0]
+        elif 'product' in p.qualifiers.keys():
+            proteinid = p.qualifiers['product'][0]
         elif 'locus_tag' in p.qualifiers.keys():
             proteinid = p.qualifiers['locus_tag'][0]
+        elif 'gene' in p.qualifiers.keys():
+            proteinid = p.qualifiers['gene'][0]
         else:
             proteinid = ""
-            print "Issue with Protein ID from GBK {},".format(gbk)
+            print "Issue with Protein ID from GBK {}, protein {}".format(gbk, p)
 
         # pass through the list of secmet and
         # get the data that applies to all domains
