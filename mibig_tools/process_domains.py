@@ -57,7 +57,7 @@ def process_secmet(gbk):
         if 'protein_id' in p.qualifiers.keys():
             proteinid = p.qualifiers['protein_id'][0]
         elif 'locus_tag' in p.qualifiers.keys():
-            proteinid = p.qualifiers['locus'][0]
+            proteinid = p.qualifiers['locus_tag'][0]
         else:
             proteinid = ""
             print "Issue with Protein ID from GBK {},".format(gbk)
