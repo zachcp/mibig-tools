@@ -1,40 +1,20 @@
-import json
-import click
 
 import pandas as pd
 from toolz import partial
-
-
-# def get_domains(gbk):
-#     proteins = [p for p in gbk.features if p.type =="CDS"]
-#     get_nucl = lambda x: str(x.extract(gbk).seq)
-
-#     for p in proteins:
-#         print p
-#         datadict = {"cluster": gbk.annotations['accessions'][0],
-#                     "proteinid": p.qualifiers['protein_id'],
-#                     "location": p.location,
-#                     "nucleotide": get_nucl(p),
-#                     "protein": p.qualifiers['translation'][0],
-#                     "product": p.qualifiers['product'][0]
-#                    }
-
-
-# t1 = "NRPS/PKS Domain: PKS_Docking_Nterm (4-31). E-value: 8.6e-08. Score: 22.9;"
-# t2 = "NRPS/PKS Domain: PKS_KS (35-460). E-value: 3.1e-185. Score: 607.4;"
-# t3 = "NRPS/PKS Domain: PKS_AT (570-867). E-value: 4.5e-105. Score: 342.5;"
-# t4 = "NRPS/PKS Domain: PKS_KR (1132-1312). E-value: 1.7e-55. Score: 179.0;"
-# t5 = "NRPS/PKS Domain: ACP (1425-1497). E-value: 9.5e-25. Score: 78.0;"
-# t6 = "NRPS/PKS Domain: PKS_KS (1520-1946). E-value: 1.2e-180. Score: 592.2;"
-# t7 = "NRPS/PKS Domain: PKS_AT (2056-2356). E-value: 4.3e-112. Score: 365.6;"
 
 
 def process_secmet_domain(st, dna, accession, proteinid):
     """
     Convert something that looks like this:
         "NRPS/PKS Domain: PKS_Docking_Nterm (4-31). E-value: 8.6e-08. Score: 22.9;"
-
-       'NRPS/PKS Domain: AMP-binding (30-457). E-value: 1.8e-119. Score: 390.2;'
+        'NRPS/PKS Domain: AMP-binding (30-457). E-value: 1.8e-119. Score: 390.2;'
+        "NRPS/PKS Domain: PKS_Docking_Nterm (4-31). E-value: 8.6e-08. Score: 22.9;"
+        "NRPS/PKS Domain: PKS_KS (35-460). E-value: 3.1e-185. Score: 607.4;"
+        "NRPS/PKS Domain: PKS_AT (570-867). E-value: 4.5e-105. Score: 342.5;"
+        "NRPS/PKS Domain: PKS_KR (1132-1312). E-value: 1.7e-55. Score: 179.0;"
+        "NRPS/PKS Domain: ACP (1425-1497). E-value: 9.5e-25. Score: 78.0;"
+        "NRPS/PKS Domain: PKS_KS (1520-1946). E-value: 1.2e-180. Score: 592.2;"
+        "NRPS/PKS Domain: PKS_AT (2056-2356). E-value: 4.3e-112. Score: 365.6;"
 
     Into:
         {'Domain': 'PKS_Docking_Nterm',
@@ -64,8 +44,6 @@ def process_secmet_domain(st, dna, accession, proteinid):
             "Score": score,
             "DNA-Sequence": dna[(start*3)-2 : end*3]}
 
-#@click.command()
-#@click.option("--gbk", type=click.File('r'), help="gbkfile")
 def process_secmet(gbk):
     "process the protein qualifiers key for secondary metabolism"
     proteins = [p for p in gbk.features if p.type =="CDS" and "sec_met" in p.qualifiers.keys()]
@@ -78,8 +56,11 @@ def process_secmet(gbk):
         clusterkind=""
         if 'protein_id' in p.qualifiers.keys():
             proteinid = p.qualifiers['protein_id'][0]
+        elif 'locus_tag' in p.qualifiers.keys():
+            proteinid = p.qualifiers['locus'][0]
         else:
             proteinid = ""
+            print "Issue with Protein ID from GBK {},".format(gbk)
 
         # pass through the list of secmet and
         # get the data that applies to all domains
