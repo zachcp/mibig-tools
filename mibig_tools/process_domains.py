@@ -92,5 +92,5 @@ def process_secmet(gbk):
 
     # add a Unique ID column based on
     df = pd.DataFrame(secmetdata)
-    df['UniqueID'] = df.Protein_ID + "." + df.Nucleoide_Start
+    df['UniqueID'] = df.Protein_ID + "." + df.Nucleoide_Start.astype(str)
     return df
