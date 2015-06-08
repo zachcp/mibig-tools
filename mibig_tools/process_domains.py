@@ -90,4 +90,7 @@ def process_secmet(gbk):
         for d in domaindata:
             secmetdata.append(domainfunc(d))
 
-    return pd.DataFrame(secmetdata)
+    # add a Unique ID column based on
+    df = pd.DataFrame(secmetdata)
+    df['UniqueID'] = df.Protein_ID + "." + df.Nucleoide_Start
+    return df
