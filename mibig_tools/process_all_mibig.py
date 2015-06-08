@@ -15,7 +15,8 @@ from process_pks import process_Polyketide
 @click.option("--domaindata", type=click.STRING, default="Domains.csv", help="Domainr Outputfile (csv)")
 @click.option("--nrpsdata", type=click.STRING, default="NRPS.csv", help="NRPS Outputfile (csv)")
 @click.option("--pksdata", type=click.STRING, default="PKS.csv", help="PKS Outputfile (csv)")
-def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata, pksdata):
+@click.option("--fnafolder", type=click.STRING, default="fnaout", help="output directory for FNA files")
+def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata, pksdata, fnafolder):
     """
     Assumes that mibig cluster data (and only mibig cluster data) is in the
     given folder. Mibig data consists of two files:
@@ -75,7 +76,6 @@ def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata,
         domains = pd.concat(domaininfo)
         domains.to_csv(domaindata,index=False)
 
-
     ## Process NRPs
     ####################################################################################
     ####################################################################################
@@ -99,8 +99,25 @@ def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata,
         pksdf.to_csv(pksdata,index=False)
         # print df.shape
 
+    ## Write FNAs
+    ####################################################################################
+    ####################################################################################
+    def write_fnafile(domain_df, outfile):
+        with open(outfile,'w') as f:
+            for row in domain_df.iterrows():
+                f.write(">{}\n{}\n".format(row.UniqueID,row.DNA_Sequence))
+
+    def writeFNAs():
+        df = pd.read_csv(domaindata)
+        domains = list(pd.unique(df.Domain))
+        for domain in domains:
+            domain_df = df[df.Domain == domain]
+            write_fnafile(domain_df, outfile="{}/{}".format(fnafolder,domain))
+
+
     # processing scripts as functions to use local scope/avoid memory issues
     makeclusters()
     makedomains()
+    writeFNAs()
     makeNRPS()
     makePKS()
