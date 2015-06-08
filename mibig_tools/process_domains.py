@@ -40,9 +40,9 @@ def process_secmet_domain(st, dna, accession, proteinid):
             "Nucleotide_Start": (start*3)-2,
             "Protein_End": end,
             "Nucleotide_End": end*3,
-            "E-value": evalue,
+            "E_value": evalue,
             "Score": score,
-            "DNA-Sequence": dna[(start*3)-2 : end*3]}
+            "DNA_Sequence": dna[(start*3)-2 : end*3]}
 
 def process_secmet(gbk):
     "process the protein qualifiers key for secondary metabolism"
@@ -92,5 +92,4 @@ def process_secmet(gbk):
 
     # add a Unique ID column based on
     df = pd.DataFrame(secmetdata)
-    df['UniqueID'] = df.Protein_ID + "." + df.Nucleoide_Start.astype(str)
     return df

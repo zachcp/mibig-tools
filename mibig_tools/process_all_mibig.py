@@ -11,8 +11,8 @@ from process_pks import process_Polyketide
 
 @click.command()
 @click.option("--mibigfolder", type=click.Path(), prompt=True, help="Mibig data folder")
-@click.option("--clusterdata", type=click.STRING, default="Clusters.csv", help="Cluster Outputfile (csv)")
-@click.option("--domaindata", type=click.STRING, default="Domains.csv", help="Domainr Outputfile (csv)")
+@click.option("--clusterdata", type=click.STRING, default="clusters.csv", help="Cluster Outputfile (csv)")
+@click.option("--domaindata", type=click.STRING, default="domains.csv", help="Domainwh Outputfile (csv)")
 @click.option("--nrpsdata", type=click.STRING, default="NRPS.csv", help="NRPS Outputfile (csv)")
 @click.option("--pksdata", type=click.STRING, default="PKS.csv", help="PKS Outputfile (csv)")
 @click.option("--fnafolder", type=click.STRING, default="fnaout", help="output directory for FNA files")
@@ -71,9 +71,12 @@ def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata,
         for genbank in allgbks:
             gbkrecords = open(genbank,'r')
             for record in SeqIO.parse(gbkrecords,'genbank'):
-                domaininfo.append( process_secmet(record))
+                domaininfo.append(process_secmet(record))
 
         domains = pd.concat(domaininfo)
+        print domains
+        domains['UniqueID'] =  domains.Protein_ID + "." + domains.Nucleotide_Start.astype(str)
+        print domains.UniqueID
         domains.to_csv(domaindata,index=False)
 
     ## Process NRPs
@@ -104,20 +107,21 @@ def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata,
     ####################################################################################
     def write_fnafile(domain_df, outfile):
         with open(outfile,'w') as f:
-            for row in domain_df.iterrows():
+            for idx, row in domain_df.iterrows():
                 f.write(">{}\n{}\n".format(row.UniqueID,row.DNA_Sequence))
 
     def writeFNAs():
+        if not os.path.exists(fnafolder): os.mkdir(fnafolder)
         df = pd.read_csv(domaindata)
         domains = list(pd.unique(df.Domain))
         for domain in domains:
             domain_df = df[df.Domain == domain]
-            write_fnafile(domain_df, outfile="{}/{}".format(fnafolder,domain))
+            write_fnafile(domain_df, outfile="{}/{}.fna".format(fnafolder,domain))
 
 
     # processing scripts as functions to use local scope/avoid memory issues
     makeclusters()
     makedomains()
-    writeFNAs()
     makeNRPS()
-    makePKS()
+    qmakePKS()
+    writeFNAs()
