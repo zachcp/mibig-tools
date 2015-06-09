@@ -121,15 +121,23 @@ def process_NRP(jsonfile):
                 adomain = module['a_substr_spec']
                 data = thread_first(defaultvalues,
                     #adomain level info
-                    (assoc, 'cdom_subtype', condv('cdom_subtype', adomain)),
-                    (assoc, 'module_nr', condv('module_nr', adomain)),
-                    (assoc, 'nrps_mod_doms', condv('nrps_mod_doms', adomain)),
-                    (assoc, 'nrps_mod_skip_iter', condv('nrps_mod_skip_iter', adomain)),
+                    (assoc, 'prot_adom_spec', condv('prot_adom_spec', adomain)),
+                    (assoc, 'nonprot_adom_spec', condv('nonprot_adom_spec', adomain)),
+                    (assoc, 'evidence_a_spec', condv('evidence_a_spec, adomain',adomain)),
+                    (assoc, 'aa_type', condv('aa_type', adomain)),
+                    (assoc, 'epimerized', condv('epimerized', adomain)),
+                    (assoc, 'other_spec', condv('other_spec', adomain)),
+                    (assoc, 'a_multiple_spec', condv('a_multiple_spec', adomain)),
+                    (assoc, 'aa_subcluster', condv('aa_subcluster', adomain)),
+
                     #modulelevel info
                     (assoc, "cdom_subtype", condv('cdom_subtype',module)),
                     (assoc, "module_nr", condv('module_nr',module)),
                     (assoc, "nrps_mod_doms", condv('nrps_mod_doms', module)),
+                    (assoc, "nrps_other_mod_dom", condv('nrps_other_mod_dom', module)),
                     (assoc, "nrps_mod_skip_iter", condv('nrps_mod_skip_iter', module)),
+                    (assoc,  "nrps_evidence_skip_iter", condv( "nrps_evidence_skip_iter", module)),
+
                     #genelevel info
                     (assoc, "nrps_gene", condv('nrps_gene',gene)),
                     #clusterlevel info
@@ -138,9 +146,16 @@ def process_NRP(jsonfile):
                     (assoc, "nrps_te_type", condv('nrps_te_type', nrps)),
                     (assoc, "nrps_thioesterase", condv('nrps_thioesterase', nrps)),
                     (assoc, "subclass", condv('subclass', nrps)),
-                    (assoc, "mibigaccession", j['general_params']['mibig_accession']),
-                    (assoc, "mibigaccession_file", os.path.basename(jsonfile)[:-5]))
+                    (assoc, "mibigaccession", j['general_params']['mibig_accession']))
+
+
                 allvalues.append(data)
+                print "Data: \n\n\n\n"
+                print data
+                print adomain
+                print module
+                print nrps
+                print "end \n\n\n"
             except:
                 print "error in jsonfile:{}\n \
                        gene:{}\n \
