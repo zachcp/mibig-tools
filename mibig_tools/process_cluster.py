@@ -1,5 +1,4 @@
 import json
-import pandas as pd
 from Bio import SeqIO, SeqUtils
 from toolz import merge
 
@@ -13,7 +12,7 @@ def general_cluster_data(data):
 
     results = []
     for gbk in gbks:
-        clusterdata = {
+        clusterdict = {
             "biosyn_class": ';'.join(clusterdata['general_params']['biosyn_class']),
              "mibig_accession": gbk.annotations['accessions'][0],
              "version": gbk.annotations['sequence_version'],
@@ -26,7 +25,7 @@ def general_cluster_data(data):
 
         taxonomydata = process_taxonomy(';'.join(gbk.annotations['taxonomy']))
 
-        resultdata = merge(clusterdata, taxonomydata)
+        resultdata = merge(clusterdict, taxonomydata)
         results.append(resultdata)
     return results
 
@@ -193,8 +192,7 @@ def process_taxonomy(tax):
                 "class": "Unknown",
                 "order": "Unknown",
                 "family": "Unknown",
-                "genus": "Unknown",
-                "species": "Unknown"}
+                "genus": "Unknown"}
 
     # Return
     ######################################################################
