@@ -9,7 +9,7 @@ from toolz import assoc, thread_first
 pp = pprint.PrettyPrinter(indent=2)
 
 def condv(key, dic, default="None"):
-    "Helper Funciton to handle missing keys"
+    "Helper Function to handle missing keys"
     try:
         val = dic[key]
         if type(val) == list:

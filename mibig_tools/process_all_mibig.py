@@ -74,9 +74,10 @@ def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata,
                 domaininfo.append(process_secmet(record))
 
         domains = pd.concat(domaininfo)
-        print domains
+        #add a UniqueID columns
         domains['UniqueID'] =  domains.Protein_ID + "." + domains.Nucleotide_Start.astype(str)
-        print domains.UniqueID
+        #eliminate dubplicates based on UniqueID (groupby and take first)
+        domains = domains.groupby('UniqueID').head(1)
         domains.to_csv(domaindata,index=False)
 
     ## Process NRPs
@@ -123,5 +124,5 @@ def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata,
     makeclusters()
     makedomains()
     makeNRPS()
-    qmakePKS()
+    makePKS()
     writeFNAs()
