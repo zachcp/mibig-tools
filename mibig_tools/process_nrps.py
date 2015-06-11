@@ -55,24 +55,25 @@ def process_NRP(jsonfile):
     """
     j =json.load(open(jsonfile,'r'))
 
-    defaultvalues = {k:"NA" for k in
-                       ["aa_subcluster",
-                        "aa_type",
-                        "cdom_subtype",
-                        "epimerized",
-                        "evidence_a_spec",
-                        "lin_cycl_nrp",
-                        "module_nr",
-                        "nonprot_adom_spec",
-                        "nrps_gene",
-                        "nrps_mod_doms",
-                        "nrps_mod_skip_iter",
-                        "nrps_release_type",
-                        "nrps_te_type",
-                        "nrps_thioesterase",
-                        "other_spec",
-                        "prot_adom_spec",
-                        "subclass"]}
+     defaultvalues = {"aa_subcluster": "NA",
+                        "aa_type": "Unknown",
+                        "cdom_subtype": "Unknown",
+                        "epimerized": "NA",
+                        "evidence_a_spec": "NA",
+                        "lin_cycl_nrp": "NA",
+                        "module_nr": "NA",
+                        "nonprot_adom_spec": "NA",
+                        "nrps_gene": "NA",
+                        "nrps_mod_doms": "NA",
+                        "nrps_mod_skip_iter": "NA",
+                        "nrps_release_type": "Unknown",
+                        "nrps_te_type": "Unknown",
+                        "nrps_thioesterase": "NA",
+                        "other_spec": "NA",
+                        "prot_adom_spec": "NA",
+                        "subclass": "Other"}
+
+
 
     #check for NRPS
     try:
