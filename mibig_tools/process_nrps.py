@@ -55,12 +55,12 @@ def process_NRP(jsonfile):
     """
     j =json.load(open(jsonfile,'r'))
 
-     defaultvalues = {"aa_subcluster": "NA",
+    defaultvalues = {"aa_subcluster": "NA",
                         "aa_type": "Unknown",
                         "cdom_subtype": "Unknown",
                         "epimerized": "NA",
                         "evidence_a_spec": "NA",
-                        "lin_cycl_nrp": "NA",
+                        "lin_cycl_nrp": "Linear",
                         "module_nr": "NA",
                         "nonprot_adom_spec": "NA",
                         "nrps_gene": "NA",
@@ -79,7 +79,7 @@ def process_NRP(jsonfile):
     try:
         nrps = j['general_params']['NRP']
     except:
-        #don't do anythign with non-NRP JSON
+        #don't do anything with non-NRP JSON
         #print "No NRP in {}".format(jsonfile)
         return
 
@@ -125,28 +125,28 @@ def process_NRP(jsonfile):
                     (assoc, 'prot_adom_spec', condv('prot_adom_spec', adomain)),
                     (assoc, 'nonprot_adom_spec', condv('nonprot_adom_spec', adomain)),
                     (assoc, 'evidence_a_spec', condv('evidence_a_spec, adomain',adomain)),
-                    (assoc, 'aa_type', condv('aa_type', adomain)),
+                    (assoc, 'aa_type', condv('aa_type', adomain,  default="Unknown")),
                     (assoc, 'epimerized', condv('epimerized', adomain)),
                     (assoc, 'other_spec', condv('other_spec', adomain)),
                     (assoc, 'a_multiple_spec', condv('a_multiple_spec', adomain)),
                     (assoc, 'aa_subcluster', condv('aa_subcluster', adomain)),
 
                     #modulelevel info
-                    (assoc, "cdom_subtype", condv('cdom_subtype',module)),
+                    (assoc, "cdom_subtype", condv('cdom_subtype',module, default="Unknown")),
                     (assoc, "module_nr", condv('module_nr',module)),
                     (assoc, "nrps_mod_doms", condv('nrps_mod_doms', module)),
                     (assoc, "nrps_other_mod_dom", condv('nrps_other_mod_dom', module)),
                     (assoc, "nrps_mod_skip_iter", condv('nrps_mod_skip_iter', module)),
-                    (assoc,  "nrps_evidence_skip_iter", condv( "nrps_evidence_skip_iter", module)),
+                    (assoc, "nrps_evidence_skip_iter", condv( "nrps_evidence_skip_iter", module)),
 
                     #genelevel info
                     (assoc, "nrps_gene", condv('nrps_gene',gene)),
                     #clusterlevel info
-                    (assoc, "lin_cycl_nrp", condv('lin_cycl_nrp',nrps)),
-                    (assoc, "nrps_release_type", condv('nrps_release_type', nrps)),
-                    (assoc, "nrps_te_type", condv('nrps_te_type', nrps)),
+                    (assoc, "lin_cycl_nrp", condv('lin_cycl_nrp',nrps, default="Unknown")),
+                    (assoc, "nrps_release_type", condv('nrps_release_type', nrps, default="Unknown")),
+                    (assoc, "nrps_te_type", condv('nrps_te_type', nrps, default="Unknown")),
                     (assoc, "nrps_thioesterase", condv('nrps_thioesterase', nrps)),
-                    (assoc, "subclass", condv('subclass', nrps)),
+                    (assoc, "subclass", condv('subclass', nrps, default="Other")),
                     (assoc, "mibigaccession", j['general_params']['mibig_accession']))
 
 
