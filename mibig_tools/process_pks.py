@@ -2,7 +2,7 @@ import os
 import json
 import pprint
 
-from toolz import assoc, thread_first\
+from toolz import assoc, thread_first
 
 
 #Process KS
@@ -100,9 +100,9 @@ def process_Polyketide(jsonfile):
         genes = polyketide['mod_pks_genes']
     except:
         #in this case there is only simple data i.e. cyclic vs. linear
-        print "jsonfile {} has only a simple record".format(jsonfile)
+        print("jsonfile {} has only a simple record".format(jsonfile))
         data = defaultvalues
-        for key, value in polyketide.iteritems():
+        for key, value in polyketide.items():
             data = assoc(data, key, condv(value, polyketide))
         data = thread_first(data,
                             (assoc, "mibigaccession", j['general_params']['mibig_accession']),
@@ -114,16 +114,16 @@ def process_Polyketide(jsonfile):
         #check that genes have modules
         modules = [gene['pks_module'] for gene in genes]
     except:
-        print "handle the case where there are genes but no modules"
+        print("handle the case where there are genes but no modules")
         data = defaultvalues
-        for key, value in polyketide.iteritems():
+        for key, value in polyketide.items():
             if key != "mod_pks_genes":
                 data = assoc(data, key, condv(value,polyketide))
 
         alldata = []
         for gene in genes:
             tempdata = data
-            for k,v in gene.iteritems():
+            for k,v in gene.items():
                 tempdata = assoc(tempdata,k,condv(v,gene))
             alldata.append(tempdata)    
         return alldata
@@ -168,8 +168,8 @@ def process_Polyketide(jsonfile):
                 
                 allvalues.append(data)
             except:
-                print "error in jsonfile:{}\n \
+                print("error in jsonfile:{}\n \
                        gene:{}\n \
                        module:{}\n \
-                       alldata:{}\n".format(jsonfile, gene['mod_pks_gene'], module,polyketide)
+                       alldata:{}\n".format(jsonfile, gene['mod_pks_gene'], module,polyketide))
     return allvalues

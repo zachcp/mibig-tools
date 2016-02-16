@@ -4,10 +4,10 @@ import glob
 import pandas as pd
 import click
 from Bio import SeqIO
-from process_cluster import general_cluster_data
-from process_domains import process_secmet
-from process_nrps import process_NRP
-from process_pks import process_Polyketide
+from .process_cluster import general_cluster_data
+from .process_domains import process_secmet
+from .process_nrps    import process_NRP
+from .process_pks     import process_Polyketide
 
 @click.command()
 @click.option("--mibigfolder", type=click.Path(), prompt=True, help="Mibig data folder")
@@ -31,12 +31,28 @@ def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata,
         pksdata: PKS-specific Info
     """
     jsonfiles = glob.glob("{}/*.json".format(mibigfolder))
-    gbkfiles = [jsonfile[:-4] + "1.final.gbk" for jsonfile in jsonfiles]
+    gbkfiles = [jsonfile[:-4] + "gbk" for jsonfile in jsonfiles]
 
-    for gbkfile in gbkfiles:
-        assert os.path.exists(gbkfile)
+    #for gbkfile in gbkfiles:
+    #    try:
+    #        assert os.path.exists(gbkfile)
 
-    datafiles = zip(jsonfiles,gbkfiles)
+    def checkfiles(data):
+        jsonfile,gbkfile = data
+        jsonexists = os.path.exists(jsonfile)
+        gbkexists  = os.path.exists(gbkfile)
+
+        if jsonexists and gbkexists:
+            return True
+        else:
+            print("Trouble:")
+            if not jsonexists: print("Missing: {}".format(jsonfile))
+            if not gbkexists:  print("Missing: {}".format(gbkfile))
+            return False
+
+
+    datafiles =  [x for x in zip(jsonfiles,gbkfiles) if checkfiles(x)]
+
 
     def makeclusters():
         ## Process Clusters
@@ -54,8 +70,8 @@ def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata,
         #general_cluster_data('mibig.secondarymetabolites.org/repository/BGC0000001/BGC0000001.json',
         #
 
-        clusterinfo =  [general_cluster_data(data) for data in  datafiles]
-        clusterdf = pd.DataFrame([f for r in clusterinfo for f in r]) #general_cluster_data returns a list
+        clusterinfo = [general_cluster_data(data) for data in  datafiles]
+        clusterdf   = pd.DataFrame([f for r in clusterinfo for f in r]) #general_cluster_data returns a list
         clusterdf.to_csv(clusterdata, index=False)
 
 
@@ -66,15 +82,18 @@ def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata,
         #there can be more than one gbk per cluster. This will pull out ALL the cluster info
         # should we use only the first cluster?
 
-        allgbks = glob.glob("{}/*.final.gbk".format(mibigfolder))
+        allgbks = [gbk for (json,gbk) in datafiles]
         domaininfo = []
         for genbank in allgbks:
+            #print(genbank)
             gbkrecords = open(genbank,'r')
             for record in SeqIO.parse(gbkrecords,'genbank'):
+                #print(process_secmet(record))
                 domaininfo.append(process_secmet(record))
 
         domains = pd.concat(domaininfo)
         #add a UniqueID columns
+        #print(domains.head())
         domains['UniqueID'] =  domains.Protein_ID + "." + domains.Nucleotide_Start.astype(str)
         #eliminate dubplicates based on UniqueID (groupby and take first)
         domains = domains.groupby('UniqueID').head(1)
@@ -86,7 +105,7 @@ def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata,
     def makeNRPS():
         NRPs = [process_NRP(t) for t in jsonfiles]
         NRP_dfs = [pd.DataFrame(nrp) for nrp in NRPs if nrp]
-        print "There are {} jsonfiles but only {} with NRP sections".format(len(jsonfiles), len(NRP_dfs))
+        print("There are {} jsonfiles but only {} with NRP sections".format(len(jsonfiles), len(NRP_dfs)))
 
         nrpsdf = pd.concat(NRP_dfs)
         nrpsdf.to_csv(nrpsdata,index=False)
@@ -98,7 +117,7 @@ def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata,
     def makePKS():
         PKSs = [process_Polyketide(t) for t in jsonfiles]
         PKS_dfs = [pd.DataFrame(pks) for pks in PKSs if pks]
-        print "There are {} jsonfiles but only {} with PKS sections".format(len(jsonfiles), len(PKS_dfs))
+        print("There are {} jsonfiles but only {} with PKS sections".format(len(jsonfiles), len(PKS_dfs)))
         pksdf = pd.concat(PKS_dfs)
         pksdf.to_csv(pksdata,index=False)
         # print df.shape
@@ -122,7 +141,7 @@ def process_mibig_cluster_folder(mibigfolder, clusterdata, domaindata, nrpsdata,
 
     # processing scripts as functions to use local scope/avoid memory issues
     makeclusters()
-    makedomains()
+    #makedomains()
     makeNRPS()
     makePKS()
     writeFNAs()

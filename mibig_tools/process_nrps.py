@@ -88,9 +88,9 @@ def process_NRP(jsonfile):
         genes = nrps['nrps_genes']
     except:
         #in this case there is only simple data i.e. cyclic vs. linear
-        print "jsonfile {} has only a simple record".format(jsonfile)
+        print("jsonfile {} has only a simple record".format(jsonfile))
         data = defaultvalues
-        for key, value in nrps.iteritems():
+        for key, value in nrps.items():
             data = assoc(data, key, value)
         return [data]
 
@@ -99,16 +99,16 @@ def process_NRP(jsonfile):
         #check that genes have modules
         modules = [gene['nrps_module'] for gene in genes]
     except:
-        print "handle the case where there are genes but no modules"
+        print("handle the case where there are genes but no modules")
         data = defaultvalues
-        for key, value in nrps.iteritems():
+        for key, value in nrps.items():
             if key != "nrps_genes":
                 data = assoc(data, key, value)
 
         alldata = []
         for gene in genes:
             tempdata = data
-            for k,v in gene.iteritems():
+            for k,v in gene.items():
                 tempdata = assoc(tempdata,k,v)
             alldata.append(tempdata)
         return alldata
@@ -151,15 +151,15 @@ def process_NRP(jsonfile):
 
 
                 allvalues.append(data)
-                print "Data: \n\n\n\n"
-                print data
-                print adomain
-                print module
-                print nrps
-                print "end \n\n\n"
+                print("Data: \n\n\n\n")
+                print(data)
+                print(adomain)
+                print(module)
+                print(nrps)
+                print("end \n\n\n")
             except:
-                print "error in jsonfile:{}\n \
+                print("error in jsonfile:{}\n \
                        gene:{}\n \
                        module:{}\n \
-                       alldata:{}\n".format(jsonfile, gene['nrps_gene'], module,nrps)
+                       alldata:{}\n".format(jsonfile, gene['nrps_gene'], module,nrps))
     return allvalues

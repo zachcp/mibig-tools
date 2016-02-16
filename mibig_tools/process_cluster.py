@@ -55,8 +55,8 @@ def process_taxonomy(tax):
             c,o,f,g = [p for i in range(4)]
 
         else:
-            print len(taxonomy)
-            print taxonomy
+            print(len(taxonomy))
+            print(taxonomy)
 
     elif len(taxonomy) == 4:
         tax1 = ['Bacteria', 'Cyanobacteria', 'Oscillatoriales', 'Trichodesmium']
@@ -70,8 +70,8 @@ def process_taxonomy(tax):
             k,p,c,g = taxonomy
             o,f= ["Unknown","Unknown"]
         else:
-            print len(taxonomy)
-            print taxonomy
+            print(len(taxonomy))
+            print(taxonomy)
 
     elif len(taxonomy) == 5:
         tax1 = ['Bacteria', 'Cyanobacteria', 'Oscillatoriophycideae', 'Oscillatoriales', 'Kamptonema']
@@ -82,8 +82,8 @@ def process_taxonomy(tax):
             g ="Unknown"
 
         else:
-            print len(taxonomy)
-            print taxonomy
+            print(len(taxonomy))
+            print(taxonomy)
 
     elif len(taxonomy) == 6:
         tax1 = ['Bacteria', 'Proteobacteria', 'Gammaproteobacteria', 'Pseudomonadales', 'Pseudomonadaceae', 'Pseudomonas']
@@ -93,8 +93,8 @@ def process_taxonomy(tax):
             k,p,c,o,f,g = taxonomy
 
         else:
-            print len(taxonomy)
-            print taxonomy
+            print(len(taxonomy))
+            print(taxonomy)
 
     elif len(taxonomy) == 7:
         #classic taxonomy
@@ -105,8 +105,8 @@ def process_taxonomy(tax):
             c="Actinobacteria"
 
         else:
-            print len(taxonomy)
-            print taxonomy
+            print(len(taxonomy))
+            print(taxonomy)
 
     elif len(taxonomy) == 8:
         tax1 = ['Bacteria', 'Actinobacteria', 'Actinobacteridae', 'Actinomycetales', 'Streptomycineae', 'Streptomycetaceae', 'Streptomyces', 'Streptomyces albidoflavus group']
@@ -116,8 +116,8 @@ def process_taxonomy(tax):
             k,p,c,o,suborder,f,g,subgenus = taxonomy
 
         else:
-            print len(taxonomy)
-            print taxonomy
+            print(len(taxonomy))
+            print(taxonomy)
 
     elif len(taxonomy) == 9:
         tax1 = ['Eukaryota', 'Fungi', 'Dikarya', 'Ascomycota', 'Pezizomycotina', 'Leotiomycetes', 'Helotiales', 'Sclerotiniaceae', 'Botrytis']
@@ -127,8 +127,8 @@ def process_taxonomy(tax):
             superkingdom,k,subkindgdom,p,subphylum,c,o,f,g = taxonomy
 
         else:
-            print len(taxonomy)
-            print taxonomy
+            print(len(taxonomy))
+            print(taxonomy)
 
     elif len(taxonomy) == 10:
         tax1 = ['Eukaryota', 'Fungi', 'Dikarya', 'Ascomycota', 'Pezizomycotina', 'Eurotiomycetes', 'Eurotiomycetidae', 'Eurotiales', 'Aspergillaceae', 'Aspergillus']
@@ -137,8 +137,8 @@ def process_taxonomy(tax):
             # extended taxonomy
             superkingdom,k,subkingdom,p,subphlum,c,subclass,o,f,g = taxonomy
         else:
-            print len(taxonomy)
-            print taxonomy
+            print(len(taxonomy))
+            print(taxonomy)
 
     elif len(taxonomy) == 11:
         tax1 = ['Eukaryota', 'Fungi', 'Dikarya', 'Ascomycota', 'Pezizomycotina', 'Dothideomycetes', 'Pleosporomycetidae', 'Pleosporales', 'Pleosporineae', 'Pleosporaceae', 'Alternaria']
@@ -147,8 +147,8 @@ def process_taxonomy(tax):
             # extended taxonomy doth=??
             superkingdom,k,subkingdom,p,subphylum,c,subclass,o,suborder,f,g = taxonomy
         else:
-            print len(taxonomy)
-            print taxonomy
+            print(len(taxonomy))
+            print(taxonomy)
 
     elif len(taxonomy) == 12:
         tax1 = ['Eukaryota', 'Fungi', 'Dikarya', 'Ascomycota', 'Pezizomycotina', 'Dothideomycetes', 'Pleosporomycetidae', 'Pleosporales', 'Pleosporineae', 'Pleosporaceae', 'Alternaria', 'Alternaria alternata group']
@@ -160,8 +160,8 @@ def process_taxonomy(tax):
             superkingdom,k,subkingdom,p,subphylum,c,subclass,o,suborder,f,_,g = taxonomy
 
         else:
-            print len(taxonomy)
-            print taxonomy
+            print(len(taxonomy))
+            print(taxonomy)
 
     elif len(taxonomy) == 14:
         tax1 = ['Eukaryota', 'Viridiplantae', 'Streptophyta', 'Embryophyta', 'Tracheophyta', 'Spermatophyta', 'Magnoliophyta', 'Liliopsida', 'Poales', 'Poaceae', 'BEP clade', 'Ehrhartoideae', 'Oryzeae', 'Oryza']
@@ -170,8 +170,8 @@ def process_taxonomy(tax):
             # extended taxonomy doth=??
             superkingdom,k,p,__,___,____,____,c,o,f,x,subfamily,tribe,g = taxonomy
         else:
-            print len(taxonomy)
-            print taxonomy
+            print(len(taxonomy))
+            print(taxonomy)
 
     elif len(taxonomy) == 16:
         tax1 = ['Eukaryota', 'Viridiplantae', 'Streptophyta', 'Embryophyta', 'Tracheophyta', 'Spermatophyta', 'Magnoliophyta', 'eudicotyledons', 'Gunneridae', 'Pentapetalae', 'rosids', 'malvids', 'Brassicales', 'Brassicaceae', 'Camelineae', 'Arabidopsis']
@@ -181,12 +181,12 @@ def process_taxonomy(tax):
             c="Unknown"
 
         else:
-            print len(taxonomy)
-            print taxonomy
+            print(len(taxonomy))
+            print(taxonomy)
 
     else:
-        print len(taxonomy)
-        print taxonomy
+        print(len(taxonomy))
+        print(taxonomy)
         return {"kingdom": "Unknown",
                 "phylum": "Unknown",
                 "class": "Unknown",

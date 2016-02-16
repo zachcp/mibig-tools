@@ -64,7 +64,7 @@ def process_secmet(gbk):
             proteinid = p.qualifiers['gene'][0]
         else:
             proteinid = ""
-            print "Issue with Protein ID from GBK {}, protein {}".format(gbk, p)
+            print("Issue with Protein ID from GBK {}, protein {}".format(gbk, p))
 
         # pass through the list of secmet and
         # get the data that applies to all domains
