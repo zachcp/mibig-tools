@@ -8,6 +8,10 @@ import click
 @click.option("--mibigfolder", type=click.Path(exists=True), prompt=True, help="Mibig data folder")
 @click.option("--outfile", type=click.File("w"), prompt=True, help="Mibig data folder")
 def process_krona(mibigfolder, outfile):
+    """
+    example; process_krona("mibigdata", "mibig_class.txt")
+
+    """
     jsonfiles = glob.glob("{}/*.json".format(mibigfolder))
 
     records = []
@@ -81,4 +85,3 @@ def process_krona(mibigfolder, outfile):
 
     return df
 
-process_krona("mibigdata", "mibig_class.txt")
