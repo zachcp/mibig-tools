@@ -10,18 +10,22 @@ def general_cluster_data(data):
     clusterdata = json.load(open(jsonfile))
     gbks = SeqIO.parse(open(gbkfile),'genbank')
 
+    compounds = get_compounds(clusterdata)
+
     results = []
     for gbk in gbks:
-        clusterdict = {
-            "biosyn_class": ';'.join(clusterdata['general_params']['biosyn_class']),
-             "mibig_accession": gbk.annotations['accessions'][0],
-             "version": gbk.annotations['sequence_version'],
-             "organism": gbk.annotations['source'],
-             "organism_taxa": ';'.join(gbk.annotations['taxonomy']),
-             "cluster_length":  len(gbk.seq),
-             "cluster_GC": SeqUtils.GC(gbk.seq),
-             "accession": gbk.annotations['comment'].split()[-1]
-        }
+        for compound in compounds:
+            clusterdict = {
+                "biosyn_class": ';'.join(clusterdata['general_params']['biosyn_class']),
+                 "mibig_accession": gbk.annotations['accessions'][0],
+                 "version": gbk.annotations['sequence_version'],
+                 "organism": gbk.annotations['source'],
+                 "organism_taxa": ';'.join(gbk.annotations['taxonomy']),
+                 "cluster_length":  len(gbk.seq),
+                 "cluster_GC": SeqUtils.GC(gbk.seq),
+                 "accession": gbk.annotations['comment'].split()[-1],
+                 "molecule": compound
+            }
 
         taxonomydata = process_taxonomy(';'.join(gbk.annotations['taxonomy']))
 
@@ -29,6 +33,15 @@ def general_cluster_data(data):
         results.append(resultdata)
     return results
 
+
+def get_compounds(BGCjson):
+    "pull out compound information form teh Mibig JSON"
+    try:
+        compounddicts = BGCjson['general_params']['compounds']
+        compounds     = [cd["compound"] for cd in compounddicts]
+        return compounds
+    except:
+        return list()
 
 
 def process_taxonomy(tax):
